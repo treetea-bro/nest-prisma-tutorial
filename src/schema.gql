@@ -2,29 +2,35 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type UserSetting {
+  notificationsOn: Boolean!
+  smsEnabled: Boolean!
+}
+
 type User {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  username: String!
+  displayName: String
+  userSetting: UserSetting
 }
 
 type Query {
   users: [User!]!
-  user(id: Int!): User!
+  user(loginId: String!): User!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  updateUser(loginId: String!, updateUserInput: UpdateUserInput!): User!
+  removeUser(loginId: String!): User!
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  loginId: String!
+  username: String!
+  displayName: String
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  username: String
+  displayName: String
 }

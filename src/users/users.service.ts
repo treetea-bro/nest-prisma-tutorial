@@ -1,30 +1,53 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
 import { PrismaService } from '../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  create(createUserInput: CreateUserInput) {
-    // this.prisma.user.create(args);
-    return 'This action adds a new user';
+  create(data: Prisma.UserCreateInput) {
+    return this.prisma.user.create({
+      data: {
+        ...data,
+        userSetting: {
+          create: {
+            smsEnabled: true,
+            notificationsOn: false,
+          },
+        },
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.prisma.user.findMany({ include: { userSetting: true } });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(loginId: string) {
+    return this.prisma.user.findUniqueOrThrow({
+      include: { userSetting: true },
+      where: { loginId },
+    });
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(loginId: string, data: Prisma.UserUpdateInput) {
+    // if (data.loginId) {
+    //   const findUser = await this.prisma.user.findUnique({
+    //     where: { loginId: data.loginId as string },
+    //   });
+    //   if (findUser) throw new HttpException('Username already taken', 400);
+    // }
+    return this.prisma.user.update({
+      where: { loginId },
+      data,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(loginId: string) {
+    return this.prisma.user.delete({
+      include: { userSetting: true },
+      where: { loginId },
+    });
   }
 }

@@ -14,20 +14,38 @@ datasource db {
 }
 
 model User {
-  //id          String     @id @default(uuid())
-  id          Int     @id @default(autoincrement())
-  username    String  @unique
-  displayName String? @default("")
+  id          String       @id @default(uuid()) @db.VarChar(36)
+  loginId     String       @unique
+  username    String       @unique
+  displayName String?      @default("")
+  userSetting UserSetting?
 }
 
 model UserSetting {
-  id              Int     @id @default(autoincrement())
+  id              String  @id @default(uuid()) @db.VarChar(36)
   notificationsOn Boolean
   smsEnabled      Boolean
+  user            User    @relation(fields: [userLoginId], references: [loginId])
+  userLoginId     String  @unique
 }
 
 model Post {
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(uuid())
   title       String
   description String
+}
+
+enum Language {
+  KOREAN
+  JAPANESE
+  ENGLISH
+  VIETNAMESE
+}
+
+model Department {
+  id         Int      @id @default(autoincrement())
+  name       String
+  test_enum  Language
+  create_at  DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 }

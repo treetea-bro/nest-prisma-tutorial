@@ -1,7 +1,17 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { UserSetting } from './userSetting.entity';
 
 @ObjectType()
 export class User {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  // @Field()
+  // loginId: string;
+
+  @Field()
+  username: string;
+
+  @Field({ nullable: true })
+  displayName?: string;
+
+  @Field(() => UserSetting, { nullable: true })
+  userSetting?: UserSetting;
 }
