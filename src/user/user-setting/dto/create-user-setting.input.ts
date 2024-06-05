@@ -9,5 +9,5 @@ export class CreateUserSettingInput {
   notificationsOn: boolean;
 
   @Field()
-  userId: string;
+  userLoginId: string;
 }

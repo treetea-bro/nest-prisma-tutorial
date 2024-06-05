@@ -1,10 +1,10 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { UserSetting } from './userSetting.entity';
+import { UserSetting } from '../user-setting/entities/user-setting.entity';
 
 @ObjectType()
 export class User {
-  // @Field()
-  // loginId: string;
+  @Field()
+  loginId: string;
 
   @Field()
   username: string;

@@ -8,6 +8,7 @@ type UserSetting {
 }
 
 type User {
+  loginId: String!
   username: String!
   displayName: String
   userSetting: UserSetting
@@ -22,6 +23,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(loginId: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(loginId: String!): User!
+  updateUserSetting(loginId: String!, updateUserSettingInput: UpdateUserSettingInput!): UserSetting!
 }
 
 input CreateUserInput {
@@ -33,4 +35,9 @@ input CreateUserInput {
 input UpdateUserInput {
   username: String
   displayName: String
+}
+
+input UpdateUserSettingInput {
+  smsEnabled: Boolean
+  notificationsOn: Boolean
 }
