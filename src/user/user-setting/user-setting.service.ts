@@ -18,9 +18,9 @@ export class UserSettingsService {
     return `This action returns a #${id} userSetting`;
   }
 
-  update(userLoginId: string, data: UpdateUserSettingInput) {
+  update(loginId: string, data: UpdateUserSettingInput) {
     return this.prisma.userSetting.update({
-      where: { userLoginId },
+      where: { loginId },
       data,
     });
   }
