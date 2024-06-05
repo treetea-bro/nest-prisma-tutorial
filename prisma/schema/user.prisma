@@ -1,15 +1,16 @@
 model User {
   id          String       @id @default(uuid()) @db.VarChar(36)
   loginId     String       @unique
-  username    String       @unique
+  username    String
   displayName String?      @default("")
   userSetting UserSetting?
+  posts       Post[]
 }
 
 model UserSetting {
   id              String  @id @default(uuid()) @db.VarChar(36)
   notificationsOn Boolean
   smsEnabled      Boolean
-  user            User    @relation(fields: [userLoginId], references: [loginId])
-  userLoginId     String  @unique
+  user            User    @relation(fields: [loginId], references: [loginId])
+  loginId         String  @unique
 }

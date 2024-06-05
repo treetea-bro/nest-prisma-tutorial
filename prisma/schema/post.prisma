@@ -1,0 +1,7 @@
+model Post {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  user        User   @relation(fields: [loginId], references: [loginId])
+  loginId     String
+}

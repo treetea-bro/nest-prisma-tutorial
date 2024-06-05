@@ -14,12 +14,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id          String @id @default(uuid())
-  title       String
-  description String
-}
-
 enum Language {
   KOREAN
   JAPANESE

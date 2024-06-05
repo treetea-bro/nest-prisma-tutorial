@@ -14,9 +14,15 @@ type User {
   userSetting: UserSetting
 }
 
+type Post {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
   users: [User!]!
   user(loginId: String!): User!
+  post(id: Int!): Post!
 }
 
 type Mutation {
@@ -24,6 +30,9 @@ type Mutation {
   updateUser(loginId: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(loginId: String!): User!
   updateUserSetting(loginId: String!, updateUserSettingInput: UpdateUserSettingInput!): UserSetting!
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): Post!
 }
 
 input CreateUserInput {
@@ -40,4 +49,17 @@ input UpdateUserInput {
 input UpdateUserSettingInput {
   smsEnabled: Boolean
   notificationsOn: Boolean
+}
+
+input CreatePostInput {
+  title: String!
+  description: String!
+  loginId: String!
+}
+
+input UpdatePostInput {
+  title: String
+  description: String
+  loginId: String
+  id: Int!
 }
