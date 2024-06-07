@@ -1,5 +1,5 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { UserSettingsService } from './user-setting.service';
+import { UserSettingsService } from './user-settings.service';
 import { UserSetting } from './entities/user-setting.entity';
 import { UpdateUserSettingInput } from './dto/update-user-setting.input';
 

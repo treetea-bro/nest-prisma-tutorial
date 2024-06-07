@@ -7,7 +7,6 @@ import {
 import { AppModule } from './app.module';
 import { urlencoded, json } from 'express';
 import { ValidationPipe, BadRequestException } from '@nestjs/common';
-import { GraphQLExceptionFilter } from './graphql-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -18,15 +17,13 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors) => {
-        const messages = errors.map(
-          (error) =>
-            `${error.property} has wrong value ${error.value}, ${Object.values(error.constraints).join(', ')}`,
-        );
+        const messages = errors.map((error) => {
+          return `parameter: ${error.property}, value: ${error.value}, reason: ${Object.values(error.constraints).join(', ')}`;
+        });
         return new BadRequestException(messages);
       },
     }),
   );
-  app.useGlobalFilters(new GraphQLExceptionFilter());
   app.use(json({ limit: '100mb' }));
   app.use(urlencoded({ limit: '100mb', extended: true }));
   app.use(

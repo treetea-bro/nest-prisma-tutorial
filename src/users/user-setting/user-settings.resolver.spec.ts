@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserSettingsResolver } from './user-setting.resolver';
-import { UserSettingsService } from './user-setting.service';
+import { UserSettingsResolver } from './user-settings.resolver';
+import { UserSettingsService } from './user-settings.service';
 
 describe('UserSettingsResolver', () => {
   let resolver: UserSettingsResolver;

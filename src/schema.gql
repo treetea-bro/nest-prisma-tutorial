@@ -2,6 +2,8 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+directive @upper on FIELD_DEFINITION
+
 type UserSetting {
   notificationsOn: Boolean!
   smsEnabled: Boolean!
@@ -17,11 +19,15 @@ type User {
 type Post {
   """Example field (placeholder)"""
   exampleField: Int!
+
+  """Example field (placeholder)"""
+  exampleFiel: Int!
 }
 
 type Query {
   users: [User!]!
   user(loginId: String!): User!
+  posts: [Post!]!
   post(id: Int!): Post!
 }
 
@@ -52,14 +58,18 @@ input UpdateUserSettingInput {
 }
 
 input CreatePostInput {
-  title: String!
-  description: String!
-  loginId: String!
+  """Example field (placeholder)"""
+  exampleField: Int!
+
+  """Example field (placeholder)"""
+  exampleField2: Int!
 }
 
 input UpdatePostInput {
-  title: String
-  description: String
-  loginId: String
+  """Example field (placeholder)"""
+  exampleField: Int
+
+  """Example field (placeholder)"""
+  exampleField2: Int
   id: Int!
 }
