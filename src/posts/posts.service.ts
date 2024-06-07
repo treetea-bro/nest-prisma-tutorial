@@ -3,13 +3,13 @@ import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 
 @Injectable()
-export class PostService {
+export class PostsService {
   create(createPostInput: CreatePostInput) {
     return 'This action adds a new post';
   }
 
   findAll() {
-    return `This action returns all post`;
+    return `This action returns all posts`;
   }
 
   findOne(id: number) {
