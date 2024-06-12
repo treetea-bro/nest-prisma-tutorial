@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { LoginIdInput } from './dto/login-id.input';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -19,20 +20,20 @@ export class UsersResolver {
   }
 
   @Query(() => User, { name: 'user' })
-  async findOne(@Args('loginId') loginId: string) {
-    return this.usersService.findOne(loginId);
+  async findOne(@Args('loginIdInput') loginIdInput: LoginIdInput) {
+    return this.usersService.findOne(loginIdInput.loginId);
   }
 
   @Mutation(() => User)
   updateUser(
-    @Args('loginId') loginId: string,
+    @Args('loginIdInput') loginIdInput: LoginIdInput,
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
-    return this.usersService.update(loginId, updateUserInput);
+    return this.usersService.update(loginIdInput.loginId, updateUserInput);
   }
 
   @Mutation(() => User)
-  removeUser(@Args('loginId') loginId: string) {
-    return this.usersService.remove(loginId);
+  removeUser(@Args('loginIdInput') loginIdInput: LoginIdInput) {
+    return this.usersService.remove(loginIdInput.loginId);
   }
 }

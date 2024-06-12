@@ -1,25 +1,19 @@
-import { InputType, Field, Directive } from '@nestjs/graphql';
-import { MaxLength, IsOptional, IsEmail, Length } from 'class-validator';
+import { InputType, Field } from '@nestjs/graphql';
+import { IsOptional, Length } from 'class-validator';
+import { lengthValidationMessage } from '../../common/validation-message/length-validation.message';
 
 @InputType()
 export class CreateUserInput {
-  // @MaxLength(3, {
-  //   message: 'Maximum length is 30 characters.',
-  // })
-  // @Length(5, 10)
-  @Field()
+  @Length(1, 30, { message: lengthValidationMessage })
+  @Field({ description: 'loginId' })
   loginId: string;
 
-  // @MaxLength(3, {
-  //   message: 'Maximum length is 30 characters.',
-  // })
+  @Length(1, 30, { message: lengthValidationMessage })
   @Field()
   username: string;
 
   @IsOptional()
-  @MaxLength(15, {
-    message: 'Maximum length is 15 characters.',
-  })
+  @Length(1, 30)
   @Field({ nullable: true })
   displayName?: string;
 }

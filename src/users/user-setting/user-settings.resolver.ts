@@ -2,6 +2,7 @@ import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { UserSettingsService } from './user-settings.service';
 import { UserSetting } from './entities/user-setting.entity';
 import { UpdateUserSettingInput } from './dto/update-user-setting.input';
+import { LoginIdInput } from '../dto/login-id.input';
 
 @Resolver(() => UserSetting)
 export class UserSettingsResolver {
@@ -24,12 +25,15 @@ export class UserSettingsResolver {
 
   @Mutation(() => UserSetting)
   updateUserSetting(
-    @Args('loginId')
-    loginId: string,
+    @Args('loginIdInput')
+    loginIdInput: LoginIdInput,
     @Args('updateUserSettingInput')
     updateUserSettingInput: UpdateUserSettingInput,
   ) {
-    return this.userSettingsService.update(loginId, updateUserSettingInput);
+    return this.userSettingsService.update(
+      loginIdInput.loginId,
+      updateUserSettingInput,
+    );
   }
 
   // @Mutation(() => UserSetting)

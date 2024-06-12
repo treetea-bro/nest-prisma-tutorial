@@ -2,8 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-directive @upper on FIELD_DEFINITION
-
 type UserSetting {
   notificationsOn: Boolean!
   smsEnabled: Boolean!
@@ -26,22 +24,27 @@ type Post {
 
 type Query {
   users: [User!]!
-  user(loginId: String!): User!
+  user(loginIdInput: LoginIdInput!): User!
   posts: [Post!]!
   post(id: Int!): Post!
 }
 
+input LoginIdInput {
+  loginId: String!
+}
+
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
-  updateUser(loginId: String!, updateUserInput: UpdateUserInput!): User!
-  removeUser(loginId: String!): User!
-  updateUserSetting(loginId: String!, updateUserSettingInput: UpdateUserSettingInput!): UserSetting!
+  updateUser(loginIdInput: LoginIdInput!, updateUserInput: UpdateUserInput!): User!
+  removeUser(loginIdInput: LoginIdInput!): User!
+  updateUserSetting(loginIdInput: LoginIdInput!, updateUserSettingInput: UpdateUserSettingInput!): UserSetting!
   createPost(createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(id: Int!): Post!
 }
 
 input CreateUserInput {
+  """loginId"""
   loginId: String!
   username: String!
   displayName: String

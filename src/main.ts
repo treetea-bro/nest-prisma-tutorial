@@ -6,7 +6,8 @@ import {
 } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { urlencoded, json } from 'express';
-import { ValidationPipe, BadRequestException } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { PrismaClientExceptionFilter } from './common/exception-filter/prisma-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -14,13 +15,11 @@ async function bootstrap() {
     new ExpressAdapter(),
   );
 
+  app.useGlobalFilters(new PrismaClientExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors) => {
-        const messages = errors.map((error) => {
-          return `parameter: ${error.property}, value: ${error.value}, reason: ${Object.values(error.constraints).join(', ')}`;
-        });
-        return new BadRequestException(messages);
+        return new BadRequestException(Object.values(errors[0].constraints)[0]);
       },
     }),
   );
