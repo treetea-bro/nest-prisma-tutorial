@@ -7,20 +7,19 @@ type UserSetting {
   smsEnabled: Boolean!
 }
 
+type Post {
+  title: String!
+  description: String!
+  loginId: String!
+}
+
 type User {
   """로그인 아이디"""
   loginId: String!
   username: String!
   displayName: String
   userSetting: UserSetting
-}
-
-type Post {
-  """Example field (placeholder)"""
-  exampleField: Int!
-
-  """Example field (placeholder)"""
-  exampleFiel: Int!
+  posts: [Post!]
 }
 
 type Query {

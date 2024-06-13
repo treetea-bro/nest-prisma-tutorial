@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Injectable()
 export class UsersService {
@@ -28,12 +28,12 @@ export class UsersService {
 
   findOne(loginId: string) {
     return this.prisma.user.findUniqueOrThrow({
-      include: { userSetting: true },
+      include: { userSetting: true, posts: true },
       where: { loginId },
     });
   }
 
-  async update(loginId: string, data: Prisma.UserUpdateInput) {
+  async update(loginId: string, data: UpdateUserInput) {
     // if (data.loginId) {
     //   const findUser = await this.prisma.user.findUnique({
     //     where: { loginId: data.loginId as string },

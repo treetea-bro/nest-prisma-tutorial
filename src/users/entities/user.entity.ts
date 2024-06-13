@@ -1,5 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { UserSetting } from '../user-setting/entities/user-setting.entity';
+import { Post } from '../posts/entities/post.entity';
 
 @ObjectType()
 export class User {
@@ -14,4 +15,7 @@ export class User {
 
   @Field(() => UserSetting, { nullable: true })
   userSetting?: UserSetting;
+
+  @Field(() => [Post], { nullable: true })
+  posts?: Post[];
 }

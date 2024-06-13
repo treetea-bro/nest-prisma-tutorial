@@ -12,5 +12,13 @@ model UserSetting {
   notificationsOn Boolean
   smsEnabled      Boolean
   loginId         String  @unique @db.VarChar(30)
-  User            User    @relation(fields: [loginId], references: [loginId], onDelete: Cascade)
+  user            User    @relation(fields: [loginId], references: [loginId], onDelete: Cascade)
+}
+
+model Post {
+  id          Int    @id @default(autoincrement())
+  title       String @db.VarChar(100)
+  description String @db.VarChar(1000)
+  user        User   @relation(fields: [loginId], references: [loginId])
+  loginId     String @db.VarChar(30)
 }

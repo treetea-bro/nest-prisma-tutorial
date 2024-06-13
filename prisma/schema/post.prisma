@@ -1,7 +1,0 @@
-model Post {
-  id          Int    @id @default(autoincrement())
-  title       String @db.VarChar(100)
-  description String @db.VarChar(1000)
-  user        User   @relation(fields: [loginId], references: [loginId])
-  loginId     String @db.VarChar(30)
-}

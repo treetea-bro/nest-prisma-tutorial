@@ -20,7 +20,7 @@ export class UsersResolver {
   }
 
   @Query(() => User, { name: 'user' })
-  async findOne(@Args('loginIdInput') loginIdInput: LoginIdInput) {
+  findOne(@Args('loginIdInput') loginIdInput: LoginIdInput) {
     return this.usersService.findOne(loginIdInput.loginId);
   }
 

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UsersModule } from './users/users.module';
 import { GraphQLModule } from '@nestjs/graphql';
-import { PostsModule } from './posts/posts.module';
 import { GraphQLError } from 'graphql';
 
 interface OriginalError {
@@ -34,7 +33,6 @@ interface OriginalError {
       },
     }),
     UsersModule,
-    PostsModule,
   ],
 })
 export class AppModule {}
