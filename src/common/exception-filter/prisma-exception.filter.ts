@@ -16,10 +16,14 @@ export class PrismaClientExceptionFilter implements GqlExceptionFilter {
         throw new ConflictException(exception.meta.target);
       }
       case 'P2003': {
-        throw new UnprocessableEntityException(exception.meta.field_name);
+        throw new UnprocessableEntityException(
+          'DB 테이블 제약조건을 위반하였습니다.',
+        );
       }
       case 'P2025': {
-        throw new NotFoundException(exception.meta.cause);
+        throw new NotFoundException(
+          'DB 테이블 안에 원하시는 행이 존재하지 않습니다.',
+        );
       }
     }
     return exception;
