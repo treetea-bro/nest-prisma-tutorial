@@ -11,6 +11,6 @@ model UserSetting {
   id              String  @id @default(uuid()) @db.VarChar(36)
   notificationsOn Boolean
   smsEnabled      Boolean
-  user            User    @relation(fields: [loginId], references: [loginId])
   loginId         String  @unique @db.VarChar(30)
+  User            User    @relation(fields: [loginId], references: [loginId], onDelete: Cascade)
 }
