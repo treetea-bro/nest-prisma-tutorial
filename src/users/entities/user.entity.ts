@@ -3,7 +3,7 @@ import { UserSetting } from '../user-setting/entities/user-setting.entity';
 
 @ObjectType()
 export class User {
-  @Field()
+  @Field({ description: '로그인 아이디' })
   loginId: string;
 
   @Field()

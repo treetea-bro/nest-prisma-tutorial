@@ -8,6 +8,7 @@ type UserSetting {
 }
 
 type User {
+  """로그인 아이디"""
   loginId: String!
   username: String!
   displayName: String
@@ -30,10 +31,12 @@ type Query {
 }
 
 input LoginIdInput {
+  """1 ~ 30글자를 입력 해주세요."""
   loginId: String!
 }
 
 type Mutation {
+  """유저를 생성합니다."""
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(loginIdInput: LoginIdInput!, updateUserInput: UpdateUserInput!): User!
   removeUser(loginIdInput: LoginIdInput!): User!
@@ -44,14 +47,21 @@ type Mutation {
 }
 
 input CreateUserInput {
-  """loginId"""
+  """1 ~ 30글자를 입력 해주세요."""
   loginId: String!
+
+  """1 ~ 30글자를 입력 해주세요."""
   username: String!
+
+  """1 ~ 30글자를 입력 해주세요."""
   displayName: String
 }
 
 input UpdateUserInput {
+  """1 ~ 30글자를 입력 해주세요."""
   username: String
+
+  """1 ~ 30글자를 입력 해주세요."""
   displayName: String
 }
 
@@ -61,18 +71,16 @@ input UpdateUserSettingInput {
 }
 
 input CreatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-
-  """Example field (placeholder)"""
-  exampleField2: Int!
+  """최대 200글자까지 입력 해주세요."""
+  title: String!
+  description: String!
+  loginId: String!
 }
 
 input UpdatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-
-  """Example field (placeholder)"""
-  exampleField2: Int
+  """최대 200글자까지 입력 해주세요."""
+  title: String
+  description: String
+  loginId: String
   id: Int!
 }
