@@ -3,6 +3,8 @@ import { PostsService } from './posts.service';
 import { Post } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
+import { GroupPost } from './entities/groupPost.entity';
+import { CreateGroupPostInput } from './dto/create-group-post.input';
 
 @Resolver(() => Post)
 export class PostsResolver {
@@ -11,6 +13,13 @@ export class PostsResolver {
   @Mutation(() => Post)
   createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
     return this.postsService.create(createPostInput);
+  }
+
+  @Mutation(() => GroupPost)
+  createGroupPost(
+    @Args('createGroupPostInput') createGroupPostInput: CreateGroupPostInput,
+  ) {
+    return this.postsService.createGroupPost(createGroupPostInput);
   }
 
   @Query(() => [Post], { name: 'posts' })

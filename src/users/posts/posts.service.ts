@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateGroupPostInput } from './dto/create-group-post.input';
 
 @Injectable()
 export class PostsService {
@@ -9,6 +10,10 @@ export class PostsService {
 
   create(data: CreatePostInput) {
     return this.prisma.post.create({ data });
+  }
+
+  createGroupPost(data: CreateGroupPostInput) {
+    return this.prisma.groupPost.create({ data });
   }
 
   findAll() {

@@ -22,6 +22,11 @@ type User {
   posts: [Post!]
 }
 
+type GroupPost {
+  title: String!
+  description: String!
+}
+
 type Query {
   users: [User!]!
   user(loginIdInput: LoginIdInput!): User!
@@ -41,6 +46,7 @@ type Mutation {
   removeUser(loginIdInput: LoginIdInput!): User!
   updateUserSetting(loginIdInput: LoginIdInput!, updateUserSettingInput: UpdateUserSettingInput!): UserSetting!
   createPost(createPostInput: CreatePostInput!): Post!
+  createGroupPost(createGroupPostInput: CreateGroupPostInput!): GroupPost!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(id: Int!): Post!
 }
@@ -74,6 +80,12 @@ input CreatePostInput {
   title: String!
   description: String!
   loginId: String!
+}
+
+input CreateGroupPostInput {
+  """최대 200글자까지 입력 해주세요."""
+  title: String!
+  description: String!
 }
 
 input UpdatePostInput {
