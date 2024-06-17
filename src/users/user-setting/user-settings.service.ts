@@ -18,9 +18,10 @@ export class UserSettingsService {
     return `This action returns a #${id} userSetting`;
   }
 
-  update(loginId: string, data: UpdateUserSettingInput) {
+  async update(loginId: string, data: UpdateUserSettingInput) {
+    const userId = await this.prisma.findUserIdByLoginId(loginId);
     return this.prisma.userSetting.update({
-      where: { loginId },
+      where: { userId },
       data,
     });
   }

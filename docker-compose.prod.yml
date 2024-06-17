@@ -8,10 +8,10 @@ services:
     #   MYSQL_USER: ${MYSQL_USER}
     #   MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     env_file:
-      - .env
+      - .env.prod
     healthcheck:
       test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
-      interval: 5s
+      interval: 15s
       timeout: 10s
       retries: 3
     restart: always # 빌드 실행 시 자동 재시작
@@ -20,19 +20,19 @@ services:
     volumes:
       - ./mariadb-data:/var/lib/mysql
 
-  app:
-    container_name: app
+  app_prod:
+    container_name: app_prod
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     depends_on:
       db:
         condition: service_healthy
     env_file:
-      - .env
+      - .env.prod
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:3000/health']
-      interval: 5s
+      interval: 15s
       timeout: 10s
       retries: 3
     restart: always

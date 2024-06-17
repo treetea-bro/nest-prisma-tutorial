@@ -8,8 +8,14 @@ import { CreateGroupPostInput } from './dto/create-group-post.input';
 export class PostsService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: CreatePostInput) {
-    return this.prisma.post.create({ data });
+  async create(data: CreatePostInput) {
+    const userId = await this.prisma.findUserIdByLoginId(data.loginId);
+    return await this.prisma.post.create({
+      data: {
+        ...data,
+        userId,
+      },
+    });
   }
 
   createGroupPost(data: CreateGroupPostInput) {

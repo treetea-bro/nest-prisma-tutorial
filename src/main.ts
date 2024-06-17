@@ -15,6 +15,8 @@ async function bootstrap() {
     new ExpressAdapter(),
   );
 
+  const PORT = process.env.PORT || 3000;
+
   app.useGlobalFilters(new PrismaClientExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
@@ -29,6 +31,8 @@ async function bootstrap() {
     '/graphql',
     graphqlUploadExpress({ maxFileSize: 100_000_000, maxFiles: 10 }),
   );
-  await app.listen(3000);
+  await app.listen(PORT, () => {
+    console.log(`Running in MODE: ${process.env.NODE_ENV} on Port: ${PORT}`);
+  });
 }
 bootstrap();
