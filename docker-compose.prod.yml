@@ -1,42 +1,13 @@
 services:
   db:
-    image: mariadb:10 # 가져올 이미지 이름 및 버전 지정
-    container_name: mariadb # 컨테이너 이름(유저 작명)
-    # environment:
-    #   MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    #   MYSQL_DATABASE: ${MYSQL_DATABASE}
-    #   MYSQL_USER: ${MYSQL_USER}
-    #   MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: always
     env_file:
       - .env.prod
-    healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
-      interval: 15s
-      timeout: 10s
-      retries: 3
-    restart: always # 빌드 실행 시 자동 재시작
-    ports:
-      - '${MYSQL_PORT}:3306'
-    volumes:
-      - ./mariadb-data:/var/lib/mysql
 
-  app_prod:
-    container_name: app_prod
+  app:
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile.prod
-    depends_on:
-      db:
-        condition: service_healthy
     env_file:
       - .env.prod
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:3000/health']
-      interval: 15s
-      timeout: 10s
-      retries: 3
-    restart: always
-    ports:
-      - '${PORT}:${PORT}'
-    volumes:
-      - ./src:/usr/src/app/src
