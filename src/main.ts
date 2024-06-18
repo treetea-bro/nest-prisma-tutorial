@@ -15,6 +15,28 @@ async function bootstrap() {
     new ExpressAdapter(),
   );
 
+  if (process.env.NODE_ENV === 'development') {
+    app.enableCors();
+  } else if (process.env.NODE_ENV === 'production') {
+    app.enableCors();
+    // app.enableCors({
+    //   origin: (origin, callback) => {
+    //     const allowedOrigins = [
+    //       'http://example.com',
+    //       'http://another-domain.com',
+    //     ];
+    //     if (allowedOrigins.includes(origin)) {
+    //       callback(null, true);
+    //     } else {
+    //       callback(new Error('Not allowed by CORS'));
+    //     }
+    //   },
+    //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    //   allowedHeaders: 'Content-Type, Accept',
+    //   credentials: true,
+    // });
+  }
+
   const PORT = process.env.PORT || 3000;
 
   app.useGlobalFilters(new PrismaClientExceptionFilter());
