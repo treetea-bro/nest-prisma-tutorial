@@ -8,10 +8,15 @@ type UserSetting {
 }
 
 type Post {
+  id: BigInt!
   title: String!
   description: String!
-  loginId: String!
 }
+
+"""
+The `BigInt` scalar type represents non-fractional signed whole numeric values.
+"""
+scalar BigInt
 
 type User {
   """로그인 아이디"""
@@ -31,7 +36,6 @@ type Query {
   users: [User!]!
   user(loginIdInput: LoginIdInput!): User!
   posts: [Post!]!
-  post(id: Int!): Post!
 }
 
 input LoginIdInput {

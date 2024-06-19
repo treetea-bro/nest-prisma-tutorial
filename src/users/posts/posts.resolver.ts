@@ -27,11 +27,6 @@ export class PostsResolver {
     return this.postsService.findAll();
   }
 
-  @Query(() => Post, { name: 'post' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.postsService.findOne(id);
-  }
-
   @Mutation(() => Post)
   updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
     return this.postsService.update(updatePostInput.id, updatePostInput);

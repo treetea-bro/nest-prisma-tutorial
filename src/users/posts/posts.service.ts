@@ -10,6 +10,7 @@ export class PostsService {
 
   async create(data: CreatePostInput) {
     const userId = await this.prisma.findUserIdByLoginId(data.loginId);
+    delete data.loginId;
     return await this.prisma.post.create({
       data: {
         ...data,
@@ -22,19 +23,15 @@ export class PostsService {
     return this.prisma.groupPost.create({ data });
   }
 
-  findAll() {
-    return `This action returns all posts`;
+  async findAll() {
+    return this.prisma.post.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
-  }
-
-  update(id: number, updatePostInput: UpdatePostInput) {
-    return `This action updates a #${id} post`;
+  async update(id: number, data: UpdatePostInput) {
+    return this.prisma.post.update({ data, where: { id } });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} post`;
+    return this.prisma.post.delete({ where: { id } });
   }
 }

@@ -23,13 +23,15 @@ export class UsersService {
   }
 
   findAll() {
-    return this.prisma.user.findMany({ include: { userSetting: true } });
+    return this.prisma.user.findMany({
+      include: { userSetting: true, posts: true },
+    });
   }
 
   findOne(loginId: string) {
     return this.prisma.user.findUniqueOrThrow({
-      include: { userSetting: true, posts: true },
       where: { loginId },
+      include: { userSetting: true, posts: true },
     });
   }
 
@@ -41,15 +43,16 @@ export class UsersService {
     //   if (findUser) throw new HttpException('Username already taken', 400);
     // }
     return this.prisma.user.update({
-      where: { loginId },
       data,
+      where: { loginId },
+      include: { userSetting: true },
     });
   }
 
   async remove(loginId: string) {
     return this.prisma.user.delete({
-      include: { userSetting: true },
       where: { loginId },
+      include: { userSetting: true },
     });
   }
 }

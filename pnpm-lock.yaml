@@ -44,6 +44,9 @@ importers:
       graphql:
         specifier: ^16.8.1
         version: 16.8.1
+      graphql-scalars:
+        specifier: ^1.23.0
+        version: 1.23.0(graphql@16.8.1)
       graphql-tag:
         specifier: ^2.12.6
         version: 2.12.6(graphql@16.8.1)
