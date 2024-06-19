@@ -23,6 +23,7 @@ enum Language {
 
 model Department {
   id         Int      @id @default(autoincrement())
+  bool       Boolean
   name       String
   test_enum  Language
   create_at  DateTime @default(now())

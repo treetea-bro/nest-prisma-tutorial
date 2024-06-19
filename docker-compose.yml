@@ -6,8 +6,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 3
-    # ports:
-    #   - '${MARIADB_PORT}:3306'
+    ports:
+      - '${MARIADB_PORT}:3306'
     volumes:
       - ./mariadb-data:/var/lib/mysql
       - ./mariadb.cnf:/etc/mysql/mariadb.cnf
@@ -21,3 +21,4 @@ services:
       - '5555:5555'
     volumes:
       - ./src:/usr/src/app/src
+      - ./prisma:/usr/src/app/prisma
