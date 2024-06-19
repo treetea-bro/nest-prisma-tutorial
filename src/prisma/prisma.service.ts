@@ -36,4 +36,20 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
     return user.id;
   }
+  async findUserIdsByLoginIds(loginIds: string[]): Promise<bigint[]> {
+    const users = await this.user.findMany({
+      where: {
+        loginId: {
+          in: loginIds,
+        },
+      },
+      select: { id: true },
+    });
+
+    if (users.length === 0) {
+      throw new NotFoundException('Users not found');
+    }
+
+    return users.map((user) => user.id);
+  }
 }

@@ -13,4 +13,7 @@ export class CreateGroupPostInput {
 
   @Field()
   description: string;
+
+  @Field(() => [String])
+  loginId: string[];
 }

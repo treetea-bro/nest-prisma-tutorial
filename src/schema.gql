@@ -90,6 +90,7 @@ input CreateGroupPostInput {
   """최대 200글자까지 입력 해주세요."""
   title: String!
   description: String!
+  loginId: [String!]!
 }
 
 input UpdatePostInput {

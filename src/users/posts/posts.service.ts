@@ -19,8 +19,15 @@ export class PostsService {
     });
   }
 
-  createGroupPost(data: CreateGroupPostInput) {
-    return this.prisma.groupPost.create({ data });
+  createGroupPost(loginIds: string[], data: CreateGroupPostInput) {
+    return this.prisma.groupPost.create({
+      data: {
+        ...data,
+        UserGroupPosts: {
+          create: loginIds.map((loginId) => ({ loginId })),
+        },
+      },
+    });
   }
 
   async findAll() {
