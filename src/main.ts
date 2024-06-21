@@ -18,6 +18,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'development') {
     app.enableCors();
   } else if (process.env.NODE_ENV === 'production') {
+    // TODO: add some modify options
     app.enableCors();
   }
 
