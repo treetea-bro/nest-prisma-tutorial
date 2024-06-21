@@ -1,15 +1,3 @@
-// import { Injectable, OnModuleInit } from '@nestjs/common';
-// import { PrismaClient } from '@prisma/client';
-//
-// @Injectable()
-// export class PrismaService extends PrismaClient implements OnModuleInit {
-//   onModuleInit() {
-//     this.$connect()
-//       .then(() => console.log('Connected to DB'))
-//       .catch((err) => console.log(err));
-//   }
-// }
-
 import { Injectable, OnModuleInit, NotFoundException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
@@ -31,11 +19,14 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException(
+        `로그인 아이디 ${loginId}이(가) 존재하지 않습니다.`,
+      );
     }
 
     return user.id;
   }
+
   async findUserIdsByLoginIds(loginIds: string[]): Promise<bigint[]> {
     const users = await this.user.findMany({
       where: {
@@ -43,11 +34,18 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
           in: loginIds,
         },
       },
-      select: { id: true },
+      select: { id: true, loginId: true },
     });
 
-    if (users.length === 0) {
-      throw new NotFoundException('Users not found');
+    const foundLoginIds = new Set(users.map((user) => user.loginId));
+    const missingLoginIds = loginIds.filter(
+      (loginId) => !foundLoginIds.has(loginId),
+    );
+
+    if (missingLoginIds.length > 0) {
+      throw new NotFoundException(
+        `로그인 아이디 [${missingLoginIds.join(', ')}] 들이 존재하지 않습니다.`,
+      );
     }
 
     return users.map((user) => user.id);
