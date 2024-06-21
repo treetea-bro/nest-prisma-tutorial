@@ -28,6 +28,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.3.9",
     "@prisma/client": "^5.15.1",
+    "argon2": "^0.40.3",
     "class-validator": "^0.14.1",
     "client@latest": "link:prisma/client@latest",
     "express": "^4.19.2",
