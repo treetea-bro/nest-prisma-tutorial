@@ -4,8 +4,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm install -g pnpm
-RUN pnpm install
-RUN npx prisma generate
+RUN npm install -g pnpm@latest && pnpm install
 
 CMD ["pnpm", "start:dev"]
