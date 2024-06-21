@@ -19,12 +19,14 @@ export class PostsService {
     });
   }
 
-  createGroupPost(loginIds: string[], data: CreateGroupPostInput) {
+  async createGroupPost(data: CreateGroupPostInput) {
+    const { loginIds, ...otherData } = data;
+    const userIds = await this.prisma.findUserIdsByLoginIds(loginIds);
     return this.prisma.groupPost.create({
       data: {
-        ...data,
+        ...otherData,
         UserGroupPosts: {
-          create: loginIds.map((loginId) => ({ loginId })),
+          create: userIds.map((userId) => ({ userId })),
         },
       },
     });

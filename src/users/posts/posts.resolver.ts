@@ -18,9 +18,9 @@ export class PostsResolver {
   @Mutation(() => GroupPost)
   createGroupPost(
     @Args('createGroupPostInput')
-    { loginIds, ...createGroupPostInput }: CreateGroupPostInput,
+    createGroupPostInput: CreateGroupPostInput,
   ) {
-    return this.postsService.createGroupPost(loginIds, createGroupPostInput);
+    return this.postsService.createGroupPost(createGroupPostInput);
   }
 
   @Query(() => [Post], { name: 'posts' })
