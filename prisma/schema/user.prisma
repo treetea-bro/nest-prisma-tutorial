@@ -1,6 +1,7 @@
 model User {
   id             BigInt           @id @default(autoincrement())
   loginId        String           @unique @db.VarChar(30)
+  password       String           @db.VarChar(128)
   username       String           @db.VarChar(30)
   displayName    String?          @default("") @db.VarChar(15)
   userSetting    UserSetting?

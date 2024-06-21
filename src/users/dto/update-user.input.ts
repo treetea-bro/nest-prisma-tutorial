@@ -3,5 +3,5 @@ import { InputType, OmitType, PartialType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateUserInput extends PartialType(
-  OmitType(CreateUserInput, ['loginId']),
+  OmitType(CreateUserInput, ['loginId', 'password']),
 ) {}

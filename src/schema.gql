@@ -32,15 +32,29 @@ type GroupPost {
   description: String!
 }
 
+type Auth {
+  accessToken: String!
+  username: String!
+}
+
 type Query {
   users: [User!]!
   user(loginIdInput: LoginIdInput!): User!
   posts: [Post!]!
+  login(loginInput: LoginUserInput!): Auth!
 }
 
 input LoginIdInput {
   """1 ~ 30글자를 입력 해주세요."""
   loginId: String!
+}
+
+input LoginUserInput {
+  """1 ~ 30글자를 입력 해주세요."""
+  loginId: String!
+
+  """1 ~ 30글자를 입력 해주세요."""
+  password: String!
 }
 
 type Mutation {
@@ -58,6 +72,9 @@ type Mutation {
 input CreateUserInput {
   """1 ~ 30글자를 입력 해주세요."""
   loginId: String!
+
+  """1 ~ 30글자를 입력 해주세요."""
+  password: String!
 
   """1 ~ 30글자를 입력 해주세요."""
   username: String!

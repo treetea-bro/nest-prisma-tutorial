@@ -4,6 +4,9 @@ import { UsersModule } from './users/users.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { GraphQLError } from 'graphql';
 import { BigIntResolver } from 'graphql-scalars';
+import { AuthService } from './auth/auth.service';
+import { AuthResolver } from './auth/auth.resolver';
+import { AuthModule } from './auth/auth.module';
 
 interface OriginalError {
   message: string;
@@ -35,6 +38,7 @@ interface OriginalError {
       },
     }),
     UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
