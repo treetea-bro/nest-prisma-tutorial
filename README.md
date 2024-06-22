@@ -1,13 +1,7 @@
-## Docker Setting
-### Development
-1. docker compose up # 이미지 빌드 및 컨테이너 생성
-2. docker compose exec app npx prisma db push # prisma db push
-3. docker compose exec app npx prisma studio # prisma studio
+## 실행 방법
+1. 도커 데스크톱을 설치합니다.
+1.1. development로 빌드하려면 bash build.sh 를 실행합니다.
+1.2. production으로 빌드하려면 bash build.prod.sh 를 실행합니다.
+2. prisma studio를 실행하려면 studio.sh 를 실행합니다.
 
-### Production
-1. docker-compose -f docker-compose.yml -f docker-compose.prod.yml up # 이미지 빌드 및 컨테이너 생성
-2. docker compose exec app npx prisma db push # prisma db push
-3. docker compose exec app npx prisma studio # prisma studio
-
-### 주의사항
-dev에서 prod로 바꿀 때 (반대의경우도 포함) 컨테이너 및 이미지 다 제거후 재설치
+extra) 개발을 진행하려면 bash dev.sh 를 실행하시면 로그를 보시면서 개발하실 수 있습니다. (hot reload 적용 && development 빌드 먼저 해주세요.)
