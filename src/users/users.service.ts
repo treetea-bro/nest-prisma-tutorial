@@ -14,8 +14,8 @@ export class UsersService {
 
     return this.prisma.user.create({
       data: {
-        password,
         ...data,
+        password,
         userSetting: {
           create: {
             smsEnabled: true,

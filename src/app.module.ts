@@ -19,6 +19,7 @@ interface OriginalError {
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/schema.gql',
+      introspection: true,
       resolvers: { BigInt: BigIntResolver },
       formatError: (error: GraphQLError) => {
         const originalError = error.extensions?.originalError as OriginalError;
