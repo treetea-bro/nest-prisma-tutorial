@@ -4,6 +4,7 @@
 /build
 migrations
 mariadb-data
+jenkins_home
 
 # Logs
 logs

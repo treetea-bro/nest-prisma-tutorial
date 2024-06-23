@@ -1,4 +1,9 @@
 services:
+  jenkins:
+    container_name: jenkins_prod
+    env_file:
+      - .env.prod
+
   db:
     container_name: db_prod
     restart: always
