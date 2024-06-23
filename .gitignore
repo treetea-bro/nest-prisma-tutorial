@@ -5,6 +5,7 @@
 migrations
 mariadb-data
 jenkins_home
+ngrok.yml
 
 # Logs
 logs
