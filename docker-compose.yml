@@ -1,7 +1,6 @@
 services:
   docker:
     image: docker:dind
-    container_name: docker_prod
     privileged: true
     environment:
       - DOCKER_TLS_CERTDIR=/certs
@@ -15,7 +14,6 @@ services:
 
   jenkins:
     image: jenkins/jenkins
-    container_name: jenkins_prod
     user: root
     ports:
       - '8080:8080'
@@ -51,9 +49,9 @@ services:
       - ./mariadb/mariadb-data:/var/lib/mysql
       - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
 
-  app:
-    depends_on:
-      db:
-        condition: service_healthy
-    ports:
-      - '${PORT}:${PORT}'
+  # app:
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   ports:
+  #     - '${PORT}:${PORT}'

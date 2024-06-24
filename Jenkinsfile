@@ -19,17 +19,17 @@ pipeline {
 
         stage('Build') { 
             steps {
-            	// gralew이 있어야됨. git clone해서 project를 가져옴.
-                sh 'chmod +x gradlew'
-                sh  './gradlew clean build'
-                sh 'ls -al ./build'
+                sh 'npm install -g pnpm@latest'
+                sh 'pnpm install'
+                sh 'pnpm run build'
+                sh 'rm -rf ./src'
             }
             post {
                 success {
-                    echo 'gradle build success'
+                    echo 'pnpm build success'
                 }
                 failure {
-                    echo 'gradle build failed'
+                    echo 'pnpm build failed'
                 }
             }
         }
@@ -44,9 +44,9 @@ pipeline {
             steps {
                 sh 'echo "Docker Rm Start, docker 컨테이너가 현재 돌아갈시 실행해야함"'
                 sh """
-                docker stop docker-jenkins-pipeline-test2
-                docker rm docker-jenkins-pipeline-test2
-                docker rmi -f mooh2jj/docker-jenkins-pipeline-test2
+                docker stop nest-prisma-tutorial-app
+                docker rm nest-prisma-tutorial-app
+                docker rmi -f nest-prisma-tutorial-app
                 """
             }
             post {
@@ -62,7 +62,7 @@ pipeline {
         stage('Dockerizing'){
             steps{
                 sh 'echo " Image Bulid Start"'
-                sh 'docker build . -t mooh2jj/docker-jenkins-pipeline-test2'
+                sh 'docker build . -t nest-prisma-tutorial-app'
             }
             post {
                 success {
@@ -77,7 +77,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'docker run --name docker-jenkins-pipeline-test2 -d -p 8083:8083 mooh2jj/docker-jenkins-pipeline-test2'
+                sh 'docker run --name app -d -p 3001:3001 nest-prisma-tutorial-app'
             }
             post {
                 success {

@@ -1,8 +1,14 @@
 services:
+  docker:
+    container_name: docker_prod
+
   jenkins:
     container_name: jenkins_prod
     env_file:
       - .env.prod
+
+  ngrok:
+    container_name: ngrok_prod
 
   db:
     container_name: db_prod
@@ -10,11 +16,11 @@ services:
     env_file:
       - .env.prod
 
-  app:
-    container_name: app_prod
-    restart: always
-    build:
-      context: .
-      dockerfile: Dockerfile.prod
-    env_file:
-      - .env.prod
+  # app:
+  #   container_name: app_prod
+  #   restart: always
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.prod
+  #   env_file:
+  #     - .env.prod
