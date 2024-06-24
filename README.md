@@ -3,7 +3,7 @@
 
     1.1. development 모드로 빌드하려면 `bash build.sh`를 실행합니다.
 
-    1.2. production 모드으로 빌드하려면 `bash build.prod.sh`를 실행합니다.
+    1.2. production 모드로 빌드하려면 `bash build.prod.sh`를 실행합니다.
 
 2. development 모드에서 prisma studio를 실행하려면 `studio.sh`를 실행합니다.
 
