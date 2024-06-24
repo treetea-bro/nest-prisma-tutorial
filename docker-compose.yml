@@ -13,7 +13,7 @@ services:
       - '5000:5000'
 
   jenkins:
-    image: jenkins/jenkins
+    image: jenkins-nodejs
     user: root
     ports:
       - '8080:8080'
@@ -36,18 +36,18 @@ services:
     depends_on:
       - jenkins
 
-  db:
-    image: mariadb:10
-    healthcheck:
-      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
-      interval: 5s
-      timeout: 5s
-      retries: 3
-    ports:
-      - '${MARIADB_PORT}:3306'
-    volumes:
-      - ./mariadb/mariadb-data:/var/lib/mysql
-      - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
+  # db:
+  #   image: mariadb:10
+  #   healthcheck:
+  #     test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 3
+  #   ports:
+  #     - '${MARIADB_PORT}:3306'
+  #   volumes:
+  #     - ./mariadb/mariadb-data:/var/lib/mysql
+  #     - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
 
   # app:
   #   depends_on:

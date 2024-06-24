@@ -68,7 +68,6 @@ pipeline {
                 success {
                     sh 'echo "Bulid Docker Image Success"'
                 }
-
                 failure {
                     sh 'echo "Bulid Docker Image Fail"'
                 }

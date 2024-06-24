@@ -10,11 +10,11 @@ services:
   ngrok:
     container_name: ngrok_prod
 
-  db:
-    container_name: db_prod
-    restart: always
-    env_file:
-      - .env.prod
+  # db:
+  #   container_name: db_prod
+  #   restart: always
+  #   env_file:
+  #     - .env.prod
 
   # app:
   #   container_name: app_prod

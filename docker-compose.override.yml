@@ -4,10 +4,10 @@ services:
     env_file:
       - .env
 
-  db:
-    container_name: db_dev
-    env_file:
-      - .env
+  # db:
+  #   container_name: db_dev
+  #   env_file:
+  #     - .env
 
   # app:
   #   container_name: app_dev

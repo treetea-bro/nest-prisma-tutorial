@@ -4,7 +4,8 @@
 /build
 migrations
 mariadb/mariadb-data
-jenkins
+jenkins/*
+!jenkins/Dockerfile
 ngrok.yml
 
 # Logs
