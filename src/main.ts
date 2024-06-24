@@ -22,7 +22,7 @@ async function bootstrap() {
     app.enableCors();
   }
 
-  const PORT = process.env.PORT || 3000;
+  const APP_PORT = process.env.APP_PORT || 3000;
 
   app.useGlobalFilters(new PrismaClientExceptionFilter());
   app.useGlobalPipes(
@@ -38,8 +38,10 @@ async function bootstrap() {
     '/graphql',
     graphqlUploadExpress({ maxFileSize: 100_000_000, maxFiles: 10 }),
   );
-  await app.listen(PORT, () => {
-    console.log(`Running in MODE: ${process.env.NODE_ENV} on Port: ${PORT}`);
+  await app.listen(APP_PORT, () => {
+    console.log(
+      `Running in MODE: ${process.env.NODE_ENV} on Port: ${APP_PORT}`,
+    );
   });
 }
 bootstrap();
