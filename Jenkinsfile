@@ -5,14 +5,20 @@ pipeline {
         stage('Create .env File') {
             steps {
                 script {
-                    writeFile file: '.env', text: """
-                        NODE_ENV=${env.NODE_ENV}
-                        APP_PORT=${env.APP_PORT}
-                        MARIADB_ROOT_PASSWORD=${env.MARIADB_ROOT_PASSWORD}
-                        MARIADB_DATABASE=${env.MARIADB_DATABASE}
-                        MARIADB_PORT=${env.MARIADB_PORT}
-                        DATABASE_URL="mysql://root:${MARIADB_ROOT_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}"
-                    """.trimIndent()
+                    writeFile file: '.env', text: "NODE_ENV=${env.NODE_ENV}\n" +
+                             "APP_PORT=${env.APP_PORT}\n" +
+                             "MARIADB_ROOT_PASSWORD=${env.MARIADB_ROOT_PASSWORD}\n" +
+                             "MARIADB_DATABASE=${env.MARIADB_DATABASE}\n" +
+                             "MARIADB_PORT=${env.MARIADB_PORT}\n" +
+                             "DATABASE_URL=\"mysql://root:${MARIADB_ROOT_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}\""
+                    // writeFile file: '.env', text: """
+                    //     NODE_ENV=${env.NODE_ENV}
+                    //     APP_PORT=${env.APP_PORT}
+                    //     MARIADB_ROOT_PASSWORD=${env.MARIADB_ROOT_PASSWORD}
+                    //     MARIADB_DATABASE=${env.MARIADB_DATABASE}
+                    //     MARIADB_PORT=${env.MARIADB_PORT}
+                    //     DATABASE_URL="mysql://root:${MARIADB_ROOT_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}"
+                    // """
                 }
             }
         }
