@@ -78,7 +78,7 @@ pipeline {
             steps {
                 sh 'echo "docker compose stop"'
                 sh """
-                docker compose stop
+                docker-compose stop
                 """
             }
             post {
