@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-      docker { image 'node:20' }
-    }
+    agent any
 
     stages {
         stage('Create .env File') {
@@ -15,16 +13,8 @@ pipeline {
                         MARIADB_PORT=${env.MARIADB_PORT}
                         DATABASE_URL="mysql://root:${MARIADB_ROOT_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}"
                     """
-                    
+                    sh 'cp .env .env.prod'
                 }
-            }
-        }
-
-        stage('Test123') {
-            steps {
-                sh 'node --version'
-                sh 'docker version'
-                sh 'docker compose'
             }
         }
 
