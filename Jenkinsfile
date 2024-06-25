@@ -29,7 +29,7 @@ pipeline {
                 script {
                     // .env 파일 로드
                     sh 'printenv'  // 현재 환경 변수 출력
-                    sh 'bash -c "set -o allexport; source .env; set +o allexport"'
+                    sh 'bash -c "set -o allexport; source .env.prod; set +o allexport"'
                     sh 'printenv'  // 로드 후 환경 변수 출력
                 }
             }
@@ -74,9 +74,9 @@ pipeline {
             }
         }
 
-        stage('Docker Rm') {
+        stage('Docker compose stop') {
             steps {
-                sh 'echo "docker compose stop"'
+                sh 'echo "docker-compose stop"'
                 sh """
                 docker compose stop
                 """
