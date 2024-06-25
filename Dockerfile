@@ -5,6 +5,6 @@ WORKDIR /var/jenkins_home/workspace/test
 
 COPY . .
 
-# RUN npm install -g pnpm@latest && pnpm install && pnpm run build && rm -rf ./src
+RUN npm install -g pnpm@latest && pnpm install && pnpm run build && rm -rf ./src
 
 CMD ["pnpm", "start:prod"]
