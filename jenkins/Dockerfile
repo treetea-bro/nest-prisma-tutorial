@@ -1,5 +1,9 @@
 FROM jenkins/jenkins:lts
 
+WORKDIR /var/jenkins_home/workspace/test
+
+COPY ../.env .
+
 USER root
 
 # Set the SHELL option
