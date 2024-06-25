@@ -42,50 +42,78 @@ pipeline {
 
         stage('Docker Rm') {
             steps {
-                sh 'echo "Docker Rm Start, docker 컨테이너가 현재 돌아갈시 실행해야함"'
+                sh 'echo "docker compose stop"'
                 sh """
-                docker stop nest-prisma-tutorial-app
-                docker rm nest-prisma-tutorial-app
-                docker rmi -f nest-prisma-tutorial-app
+                docker compose stop
                 """
             }
             post {
                 success { 
-                    sh 'echo "Docker Rm Success"'
+                    sh 'echo "Docker compose stop Success"'
                 }
                 failure {
-                    sh 'echo "Docker Rm Fail"'
+                    sh 'echo "Docker compose stop Fail"'
                 }
             }
         }
 
-        stage('Dockerizing'){
-            steps{
-                sh 'echo " Image Bulid Start"'
-                sh 'docker build . -t nest-prisma-tutorial-app'
-            }
-            post {
-                success {
-                    sh 'echo "Bulid Docker Image Success"'
-                }
-                failure {
-                    sh 'echo "Bulid Docker Image Fail"'
-                }
-            }
-        }
-
-        stage('Deploy') {
+        stage('Prune Docker data') {
             steps {
-                sh 'docker run --name app -d -p 3001:3001 nest-prisma-tutorial-app'
+                sh 'echo "Prune Docker data"'
+                sh 'docker system prune -a --volumes -f'
             }
             post {
                 success {
-                    echo 'success'
+                    sh 'echo "Prune Docker data Success"'
                 }
                 failure {
-                    echo 'failed'
+                    sh 'echo "Prune Docker data Fail"'
                 }
             }
         }
+
+        stage('Docker Deploy') {
+            steps {
+                sh 'docker compose up -d --build'
+                sh 'docker compose ps'
+            }
+            post {
+                success {
+                    echo 'docker compose success'
+                }
+                failure {
+                    echo 'docker compose failed'
+                }
+            }
+        }
+
+        // stage('Dockerizing'){
+        //     steps{
+        //         sh 'echo " Image Bulid Start"'
+        //         sh 'docker build . -t nest-prisma-tutorial-app'
+        //     }
+        //     post {
+        //         success {
+        //             sh 'echo "Bulid Docker Image Success"'
+        //         }
+        //         failure {
+        //             sh 'echo "Bulid Docker Image Fail"'
+        //         }
+        //     }
+        // }
+
+        // stage('Deploy') {
+        //     steps {
+        //         sh 'docker run --name app -d -p 3001:3001 nest-prisma-tutorial-app'
+        //     }
+        //     post {
+        //         success {
+        //             echo 'success'
+        //         }
+        //         failure {
+        //             echo 'failed'
+        //         }
+        //     }
+        // }
     }
 }
