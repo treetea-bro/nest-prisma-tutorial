@@ -4,6 +4,6 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN npm install -g pnpm@latest && pnpm install
+RUN npm install -g pnpm@latest && pnpm install && pnpm run build && rm -rf ./src
 
-CMD ["pnpm", "start:dev"]
+CMD ["pnpm", "start:prod"]
