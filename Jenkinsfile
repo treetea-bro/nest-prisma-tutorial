@@ -1,56 +1,17 @@
 pipeline {
     agent any
     environment {
-        DOTENV = credentials('.env.prod') // Jenkins 자격 증명에서 .env 파일을 참조
+        NODE_ENV=credentials('NODE_ENV')
+        APP_PORT=credentials('APP_PORT')
+        MARIADB_ROOT_PASSWORD=credentials('MARIADB_ROOT_PASSWORD')
+        MARIADB_DATABASE=credentials('MARIADB_DATABASE')
+        // MARIADB_USER=credentials('MARIADB_USER')
+        // MARIADB_PASSWORD=credentials('MARIADB_PASSWORD')
+        MARIADB_PORT=credentials('MARIADB_PORT')
+        DATABASE_URL=credentials('DATABASE_URL')
     }
 
     stages {
-        stage('Prepare env') {
-            steps {
-                script {
-                    // .env 파일을 Jenkins 작업 디렉토리에 저장
-                    writeFile file: '.env.prod', text: env.APP_PORT
-                }
-                // git branch: 'main',
-                //     url: 'https://github.com/treetea-bro/nest-prisma-tutorial.git'
-            }
-            post {
-                success {
-                    sh 'echo "Successfully Cloned Repository"'
-                }
-                failure {
-                    sh 'echo "Fail Cloned Repository"'
-                }
-            }
-        }
-
-        stage('Load Env') {
-            steps {
-                script {
-                    // .env 파일 로드
-                    sh 'printenv'  // 현재 환경 변수 출력
-                    sh 'bash -c "set -o allexport; source .env.prod; set +o allexport"'
-                    sh 'printenv'  // 로드 후 환경 변수 출력
-                }
-            }
-        }
-
-    // stages {
-    //     stage('Checkout') {
-    //         steps {
-    //             git branch: 'main',
-    //                 url: 'https://github.com/treetea-bro/nest-prisma-tutorial.git'
-    //         }
-    //         post {
-    //             success { 
-    //                 sh 'echo "Successfully Cloned Repository"'
-    //             }
-    //             failure {
-    //                 sh 'echo "Fail Cloned Repository"'
-    //             }
-    //         }
-    //     }
-
         stage('Build') { 
             steps {
                 sh 'npm install -g pnpm@latest'
