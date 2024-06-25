@@ -12,7 +12,7 @@ pipeline {
                         MARIADB_DATABASE=${env.MARIADB_DATABASE}
                         MARIADB_PORT=${env.MARIADB_PORT}
                         DATABASE_URL="mysql://root:${MARIADB_ROOT_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}"
-                    """
+                    """.trimIndent()
                 }
             }
         }
