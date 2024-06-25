@@ -75,7 +75,7 @@ pipeline {
 
         stage('Docker Deploy') {
             steps {
-                sh 'bash build.prod.sh'
+                sh 'bash build.sh'
             }
             post {
                 success {
