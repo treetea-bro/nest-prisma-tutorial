@@ -1,17 +1,22 @@
 pipeline {
     agent any
-    environment {
-        NODE_ENV=credentials('NODE_ENV')
-        APP_PORT=credentials('APP_PORT')
-        MARIADB_ROOT_PASSWORD=credentials('MARIADB_ROOT_PASSWORD')
-        MARIADB_DATABASE=credentials('MARIADB_DATABASE')
-        // MARIADB_USER=credentials('MARIADB_USER')
-        // MARIADB_PASSWORD=credentials('MARIADB_PASSWORD')
-        MARIADB_PORT=credentials('MARIADB_PORT')
-        DATABASE_URL=credentials('DATABASE_URL')
-    }
 
     stages {
+        stage('Create .env.prod File') {
+            steps {
+                script {
+                    writeFile file: '.env.prod', text: """
+                        NODE_ENV=${env.NODE_ENV}
+                        APP_PORT=${env.APP_PORT}
+                        MARIADB_ROOT_PASSWORD=${env.MARIADB_ROOT_PASSWORD}
+                        MARIADB_DATABASE=${env.MARIADB_DATABASE}
+                        MARIADB_PORT=${env.MARIADB_PORT}
+                        DATABASE_URL="mysql://root:${MARIADB_ROOT_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}"
+                    """
+                }
+            }
+        }
+
         stage('Build') { 
             steps {
                 sh 'npm install -g pnpm@latest'
@@ -39,7 +44,7 @@ pipeline {
             steps {
                 sh 'echo "docker compose stop"'
                 sh """
-                docker-compose stop
+                docker-compose --env-file .env.prod stop
                 """
             }
             post {
