@@ -1,11 +1,13 @@
 pipeline {
-    agent any
+    agent {
+      docker { image 'node:20.14.0-alpine3.20' }
+    }
 
     stages {
-        stage('Create .env.prod File') {
+        stage('Create .env File') {
             steps {
                 script {
-                    writeFile file: '.env.prod', text: """
+                    writeFile file: '.env', text: """
                         NODE_ENV=${env.NODE_ENV}
                         APP_PORT=${env.APP_PORT}
                         MARIADB_ROOT_PASSWORD=${env.MARIADB_ROOT_PASSWORD}
@@ -13,7 +15,16 @@ pipeline {
                         MARIADB_PORT=${env.MARIADB_PORT}
                         DATABASE_URL="mysql://root:${MARIADB_ROOT_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}"
                     """
+                    
                 }
+            }
+        }
+
+        stage('Test123') {
+            steps {
+                sh 'node --version'
+                sh 'docker version'
+                sh 'docker compose'
             }
         }
 
@@ -42,9 +53,9 @@ pipeline {
 
         stage('Docker compose stop') {
             steps {
-                sh 'echo "docker compose stop"'
+                sh 'echo "docker-compose stop"'
                 sh """
-                docker-compose --env-file .env.prod stop
+                docker-compose stop
                 """
             }
             post {
@@ -78,10 +89,10 @@ pipeline {
             }
             post {
                 success {
-                    echo 'docker compose success'
+                    echo 'docker-compose success'
                 }
                 failure {
-                    echo 'docker compose failed'
+                    echo 'docker-compose failed'
                 }
             }
         }
