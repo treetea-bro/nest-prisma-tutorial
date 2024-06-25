@@ -29,7 +29,7 @@ pipeline {
                 script {
                     // .env 파일 로드
                     sh 'printenv'  // 현재 환경 변수 출력
-                    sh 'set -o allexport; source .env.prod; set +o allexport'  // .env 파일 로드
+                    sh 'bash -c "set -o allexport; source .env; set +o allexport"'
                     sh 'printenv'  // 로드 후 환경 변수 출력
                 }
             }
