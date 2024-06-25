@@ -1,6 +1,15 @@
 pipeline {
     agent any
 
+    environment {
+        NODE_ENV = "${env.NODE_ENV}"
+        APP_PORT = "${env.APP_PORT}"
+        MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
+        MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
+        MARIADB_PORT = "${env.MARIADB_PORT}"
+        DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
+    }
+
     stages {
         stage('Create .env File') {
             steps {
