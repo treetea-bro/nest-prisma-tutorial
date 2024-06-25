@@ -10,6 +10,7 @@ pipeline {
                 script {
                     // .env 파일을 Jenkins 작업 디렉토리에 저장
                     writeFile file: '.env.prod', text: env.DOTENV
+                    sh 'chmod 644 .env.prod'
                 }
                 git branch: 'main',
                     url: 'https://github.com/treetea-bro/nest-prisma-tutorial.git'
