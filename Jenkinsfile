@@ -1,14 +1,21 @@
 pipeline {
     agent any
+    environment {
+        DOTENV = credentials('.env.prod') // Jenkins 자격 증명에서 .env 파일을 참조
+    }
 
     stages {
-        stage('Checkout') {
+        stage('Prepare') {
             steps {
+                script {
+                    // .env 파일을 Jenkins 작업 디렉토리에 저장
+                    writeFile file: '.env.prod', text: env.DOTENV
+                }
                 git branch: 'main',
                     url: 'https://github.com/treetea-bro/nest-prisma-tutorial.git'
             }
             post {
-                success { 
+                success {
                     sh 'echo "Successfully Cloned Repository"'
                 }
                 failure {
@@ -16,6 +23,33 @@ pipeline {
                 }
             }
         }
+
+        stage('Load Env') {
+            steps {
+                script {
+                    // .env 파일 로드
+                    sh 'printenv'  // 현재 환경 변수 출력
+                    sh 'set -o allexport; source .env.prod; set +o allexport'  // .env 파일 로드
+                    sh 'printenv'  // 로드 후 환경 변수 출력
+                }
+            }
+        }
+
+    // stages {
+    //     stage('Checkout') {
+    //         steps {
+    //             git branch: 'main',
+    //                 url: 'https://github.com/treetea-bro/nest-prisma-tutorial.git'
+    //         }
+    //         post {
+    //             success { 
+    //                 sh 'echo "Successfully Cloned Repository"'
+    //             }
+    //             failure {
+    //                 sh 'echo "Fail Cloned Repository"'
+    //             }
+    //         }
+    //     }
 
         stage('Build') { 
             steps {
@@ -74,8 +108,7 @@ pipeline {
 
         stage('Docker Deploy') {
             steps {
-                sh 'docker compose up -d --build'
-                sh 'docker compose ps'
+                sh 'bash build.prod.sh'
             }
             post {
                 success {
