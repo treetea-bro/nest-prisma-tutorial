@@ -1,6 +1,7 @@
 FROM node:20
 
-WORKDIR /usr/src/app
+WORKDIR /var/jenkins_home/workspace/test
+# WORKDIR /usr/src/app
 
 COPY . .
 
