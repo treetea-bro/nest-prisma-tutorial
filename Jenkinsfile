@@ -26,36 +26,36 @@ pipeline {
             }
         }
 
-        // stage('DB') {
-        //     steps {
-        //         script {
-        //             // Run the MariaDB container in the background
-        //             sh '''
-        //             docker run -d --name db --network node-db -p 3306:3306 \
-        //                 -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} \
-        //                 -e MARIADB_DATABASE=${MARIADB_DATABASE} \
-        //                 -v $PWD/mariadb/mariadb-data:/var/lib/mysql mariadb:10
-        //             '''
-        //         }
-        //     }
-        // }
-
         stage('DB') {
-            agent {
-                docker { 
-                    image 'mariadb:10'
-                    args '--name db --network node-db -p 3306:3306 -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} -e MARIADB_DATABASE=${MARIADB_DATABASE} -v $PWD/mariadb/mariadb-data:/var/lib/mysql'
-                    reuseNode true
+            steps {
+                script {
+                    // Run the MariaDB container in the background
+                    sh '''
+                    docker run -d --name db --network node-db -p 3306:3306 \
+                        -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} \
+                        -e MARIADB_DATABASE=${MARIADB_DATABASE} \
+                        -v $PWD/mariadb/mariadb-data:/var/lib/mysql mariadb:10
+                    '''
                 }
             }
-            environment {
-                MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
-                MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
-            }
-            steps {
-                sh 'mariadb --version'
-            }
         }
+
+        // stage('DB') {
+        //     agent {
+        //         docker { 
+        //             image 'mariadb:10'
+        //             args '--name db --network node-db -p 3306:3306 -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} -e MARIADB_DATABASE=${MARIADB_DATABASE} -v $PWD/mariadb/mariadb-data:/var/lib/mysql'
+        //             reuseNode true
+        //         }
+        //     }
+        //     environment {
+        //         MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
+        //         MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
+        //     }
+        //     steps {
+        //         sh 'mariadb --version'
+        //     }
+        // }
 
         stage('App') { 
             agent {
