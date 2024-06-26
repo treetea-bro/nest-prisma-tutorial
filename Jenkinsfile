@@ -8,7 +8,6 @@ pipeline {
         MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
         MARIADB_PORT = "${env.MARIADB_PORT}"
         DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
-        SHELL = "/bin/sh"
     }
 
     stages {
@@ -91,12 +90,11 @@ pipeline {
 
             steps {
                 sh 'npm install -g pnpm@latest'
-                sh 'pnpm setup'
-                sh 'pnpm add -g prisma'
                 sh 'pnpm install'
                 sh 'pnpm run build'
                 sh 'prisma db push'
                 sh 'rm -rf ./src'
+                sh 'npx prisma db push'
                 sh 'nohup pnpm start:prod &'
             }
             post {
