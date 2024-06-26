@@ -57,34 +57,34 @@ pipeline {
             }
         }
 
-        // stage('App') { 
-        //     agent {
-        //         docker { 
-        //             image 'node:20.15.0-alpine3.20'
-        //             args '--network node-db -p 3001:3001'
-        //         }
-        //     }
-        //
-        //     // environment {
-        //     //     DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
-        //     // }
-        //
-        //     steps {
-        //         sh 'npm install -g pnpm@latest'
-        //         sh 'pnpm install'
-        //         sh 'pnpm run build'
-        //         sh 'rm -rf ./src'
-        //         sh 'pnpm start:prod'
-        //     }
-        //     post {
-        //         success {
-        //             echo 'pnpm build success'
-        //         }
-        //         failure {
-        //             echo 'pnpm build failed'
-        //         }
-        //     }
-        // }
+        stage('App') { 
+            agent {
+                docker { 
+                    image 'node:20.15.0-alpine3.20'
+                    args '--network node-db -p 3001:3001'
+                }
+            }
+
+            // environment {
+            //     DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
+            // }
+
+            steps {
+                sh 'npm install -g pnpm@latest'
+                sh 'pnpm install'
+                sh 'pnpm run build'
+                sh 'rm -rf ./src'
+                sh 'pnpm start:prod'
+            }
+            post {
+                success {
+                    echo 'pnpm build success'
+                }
+                failure {
+                    echo 'pnpm build failed'
+                }
+            }
+        }
     }
 }
 
