@@ -17,5 +17,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: 'mysql://${MARIADB_USER}:${MARIADB_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}'
     # env_file:
     #   - .env
