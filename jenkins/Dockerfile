@@ -1,9 +1,5 @@
 FROM jenkins/jenkins:2.452.2-jdk17
 
-WORKDIR /var/jenkins_home/workspace/test
-
-COPY ../.env .
-
 USER root
 
 # Set the SHELL option
