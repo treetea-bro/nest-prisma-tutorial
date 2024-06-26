@@ -92,7 +92,6 @@ pipeline {
                 sh 'npm install -g pnpm@latest'
                 sh 'pnpm install'
                 sh 'pnpm run build'
-                sh 'prisma db push'
                 sh 'rm -rf ./src'
                 sh 'npx prisma db push'
                 sh 'nohup pnpm start:prod &'
