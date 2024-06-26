@@ -1,2 +1,2 @@
-docker-compose up --build -d
-docker-compose exec app npx prisma db push
+docker build -t jenkins ./jenkins/.
+docker compose -f ./jenkins/docker-compose.yml up --build -d

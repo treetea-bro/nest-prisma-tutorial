@@ -1,44 +1,24 @@
 services:
-  # docker:
-  #   image: docker:dind
-  #   container_name: docker
-  #   privileged: true
-  #   environment:
-  #     - DOCKER_TLS_CERTDIR=/certs
-  #   volumes:
-  #     - ./jenkins-docker-certs:/certs/client
-  #     - ./jenkins-data:/var/jenkins_home
-  #   ports:
-  #     - '2376:2376'
-
   jenkins:
     image: jenkins
     container_name: jenkins
     user: root
     ports:
       - '8080:8080'
-      # - '3001:3001'
-    # depends_on:
-    #   - docker
-    # environment:
-    #   - DOCKER_HOST=tcp://docker:2376
-    #   - DOCKER_CERT_PATH=/certs/client
-    #   - DOCKER_TLS_VERIFY=1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jenkins-data:/var/jenkins_home
-      # - ./jenkins-docker-certs:/certs/client:ro
 
-  # ngrok:
-  #   image: ngrok/ngrok:latest
-  #   container_name: ngrok
-  #   command: start --all --config /etc/ngrok.yml
-  #   volumes:
-  #     - ./ngrok.yml:/etc/ngrok.yml
-  #   ports:
-  #     - 4040:4040
-  #   depends_on:
-  #     - jenkins
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: ngrok
+    command: start --all --config /etc/ngrok.yml
+    volumes:
+      - ./ngrok.yml:/etc/ngrok.yml
+    ports:
+      - 4040:4040
+    depends_on:
+      - jenkins
 # nginx:
 #   image: nginx:latest
 #   container_name: nginx
