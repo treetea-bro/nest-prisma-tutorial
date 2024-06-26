@@ -29,6 +29,12 @@ pipeline {
         //     }
         // }
 
+        stage('Docker network create') {
+          steps {
+            sh 'docker network create node-db'
+          }
+        }
+
         stage('Build') { 
             steps {
                 sh 'npm install -g pnpm@latest'
