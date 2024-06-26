@@ -23,11 +23,11 @@ pipeline {
                     fi
                     '''
                     sh '''
-                    if ! docker volume ls --format "{{.Name}}" | grep -w mariadb.cnf > /dev/null; then
-                        docker volume create mariadb.cnf
-                        echo "Volume mariadb.cnf created."
+                    if ! docker volume ls --format "{{.Name}}" | grep -w mariadb-cnf > /dev/null; then
+                        docker volume create mariadb-cnf
+                        echo "Volume mariadb-cnf created."
                     else
-                        echo "Volume mariadb.cnf already exists."
+                        echo "Volume mariadb-cnf already exists."
                     fi
                     '''
                 }
