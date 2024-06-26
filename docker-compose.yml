@@ -8,9 +8,9 @@ services:
       retries: 5
     ports:
       - '${MARIADB_PORT}:3306'
-    volumes:
-      - ./mariadb/mariadb-data:/var/lib/mysql
-      - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
+    # volumes:
+    #   - ./mariadb/mariadb-data:/var/lib/mysql
+    #   - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
 
   app:
     depends_on:
