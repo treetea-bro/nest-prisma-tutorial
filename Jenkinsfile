@@ -1,4 +1,5 @@
 pipeline {
+    agent none
 
     environment {
         NODE_ENV = "${env.NODE_ENV}"
