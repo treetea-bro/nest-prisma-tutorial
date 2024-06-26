@@ -74,7 +74,8 @@ pipeline {
                 sh 'pnpm install'
                 sh 'pnpm run build'
                 sh 'rm -rf ./src'
-                sh 'pnpm start:prod'
+                sh 'prisma db push'
+                sh 'nohup pnpm start:prod &'
             }
             post {
                 success {
