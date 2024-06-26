@@ -14,7 +14,7 @@ services:
     container_name: ngrok
     command: start --all --config /etc/ngrok.yml
     volumes:
-      - ./jenkins/ngrok.yml:/etc/ngrok.yml # build.sh가 상위폴더라 ./jenkins/ngrok.yml
+      - ./ngrok.yml:/etc/ngrok.yml
     ports:
       - 4040:4040
     depends_on:
