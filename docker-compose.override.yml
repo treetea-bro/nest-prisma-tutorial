@@ -8,8 +8,6 @@ services:
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
       MARIADB_PORT: ${MARIADB_PORT}
-    # env_file:
-    #   - .env
 
   app:
     container_name: app_prod
@@ -21,5 +19,3 @@ services:
       NODE_ENV: ${NODE_ENV}
       APP_PORT: ${APP_PORT}
       DATABASE_URL: 'mysql://${MARIADB_USER}:${MARIADB_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}'
-    # env_file:
-    #   - .env

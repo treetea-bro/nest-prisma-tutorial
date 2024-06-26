@@ -8,9 +8,9 @@ services:
       retries: 5
     ports:
       - '${MARIADB_PORT}:3306'
-    # volumes:
-    #   - ./mariadb/mariadb-data:/var/lib/mysql
-    #   - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
+    volumes:
+      - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
+      - mariadb-data:/var/lib/mysql
 
   app:
     depends_on:
@@ -18,3 +18,6 @@ services:
         condition: service_healthy
     ports:
       - '${APP_PORT}:${APP_PORT}'
+
+volumes:
+  - mariadb-data
