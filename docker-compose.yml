@@ -9,7 +9,7 @@ services:
     ports:
       - '${MARIADB_PORT}:3306'
     volumes:
-      - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
+      # - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
       # - mariadb-data:/var/lib/mysql
 
   app:
