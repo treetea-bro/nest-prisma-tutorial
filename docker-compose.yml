@@ -22,4 +22,5 @@ services:
 
 volumes:
   mariadb-data:
+    external: true
   # mariadb.cnf:
