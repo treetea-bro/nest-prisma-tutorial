@@ -27,14 +27,16 @@ pipeline {
           agent {
             docker { 
               image 'mariadb:10'
-              args '--network node-db -p 3306:3306'
+              args '--name db --network node-db -p 3306:3306 -v ./mariadb/mariadb-data:/var/lib/mysql'
             }
           }
           steps {
             sh 'mariadb --version'
           }
         }
-
+    // volumes:
+    //   - ./mariadb/mariadb-data:/var/lib/mysql
+    //   - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
 
         stage('App') { 
             agent {
