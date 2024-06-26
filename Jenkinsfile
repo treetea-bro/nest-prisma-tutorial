@@ -17,10 +17,19 @@ pipeline {
     }
 
     stages {
-        stage('Docker network create') {
-          steps {
-            sh 'docker network create node-db'
-          }
+        stage('Setup Network') {
+            steps {
+                script {
+                    // Check if the network exists, create it if it doesn't
+                    sh '''
+                    if ! docker network ls --format "{{.Name}}" | grep -w node-db > /dev/null; then
+                        docker network create node-db
+                    else
+                        echo "Network node-db already exists"
+                    fi
+                    '''
+                }
+            }
         }
 
         stage('DB') {
