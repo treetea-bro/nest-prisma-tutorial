@@ -26,16 +26,44 @@ pipeline {
             }
         }
 
-        stage('DB') {
+        // stage('DB') {
+        //     steps {
+        //         script {
+        //             // Run the MariaDB container in the background
+        //             sh '''
+        //             docker run -d --name db --network node-db -p 3306:3306 \
+        //                 -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} \
+        //                 -e MARIADB_DATABASE=${MARIADB_DATABASE} \
+        //                 -v $PWD/mariadb/mariadb-data:/var/lib/mysql mariadb:10
+        //             '''
+        //         }
+        //     }
+        // }
+
+        stage('Start DB Container') {
             steps {
                 script {
-                    // Run the MariaDB container in the background
+                    // Check if the MariaDB container is already running, if so, do nothing
                     sh '''
-                    docker run -d --name db --network node-db -p 3306:3306 \
-                        -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} \
-                        -e MARIADB_DATABASE=${MARIADB_DATABASE} \
-                        -v $PWD/mariadb/mariadb-data:/var/lib/mysql mariadb:10
+                    if [ $(docker ps -q -f name=db) ]; then
+                        echo "DB container is already running"
+                    else
+                        # Start a new MariaDB container in detached mode
+                        docker run -d --name db --network node-db -p 3306:3306 \
+                            -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} \
+                            -e MARIADB_DATABASE=${MARIADB_DATABASE} \
+                            -v $PWD/mariadb/mariadb-data:/var/lib/mysql mariadb:10
+                    fi
                     '''
+                }
+            }
+        }
+
+        stage('Check DB Container') {
+            steps {
+                script {
+                    // Check if the MariaDB container is running
+                    sh 'docker ps -f name=db'
                 }
             }
         }
