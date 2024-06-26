@@ -11,9 +11,40 @@ pipeline {
     }
 
     stages {
-        stage('compose') {
+        stage('Create Volume') {
             steps {
-              sh 'bash build.sh'
+                script {
+                    sh '''
+                    if ! docker volume ls --format "{{.Name}}" | grep -w mariadb-data > /dev/null; then
+                        docker volume create mariadb-data
+                        echo "Volume mariadb-data created."
+                    else
+                        echo "Volume mariadb-data already exists."
+                    fi
+                    '''
+                    sh '''
+                    if ! docker volume ls --format "{{.Name}}" | grep -w mariadb.cnf > /dev/null; then
+                        docker volume create mariadb.cnf
+                        echo "Volume mariadb.cnf created."
+                    else
+                        echo "Volume mariadb.cnf already exists."
+                    fi
+                    '''
+                }
+            }
+        }
+
+
+        // stage('') {
+        //     steps {
+        //       sh 'bash build.sh'
+        //     }
+        // }
+
+        stage('Build') {
+            steps {
+              sh 'docker-compose up -d'
+              sh 'docker-compose exec app npx prisma db push'
             }
         }
 
