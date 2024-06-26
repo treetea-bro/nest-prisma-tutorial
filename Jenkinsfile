@@ -22,17 +22,17 @@ pipeline {
         //   }
         // }
 
-        stage('DB') {
-          agent {
-            docker { 
-              image 'mariadb:10'
-              args '-p 3306:3306'
-            }
-          }
-          // steps {
-          //   sh 'docker network create node-db'
-          // }
-        }
+        // stage('DB') {
+        //   agent {
+        //     docker { 
+        //       image 'mariadb:10'
+        //       args '-p 3306:3306'
+        //     }
+        //   }
+        //   // steps {
+        //   //   sh 'docker network create node-db'
+        //   // }
+        // }
 
 
         stage('App') { 
