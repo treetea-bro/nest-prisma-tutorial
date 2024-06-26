@@ -33,10 +33,10 @@ pipeline {
                     args '--name db --network node-db -p 3306:3306 -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} -e MARIADB_DATABASE=${MARIADB_DATABASE} -v $PWD/mariadb/mariadb-data:/var/lib/mysql'
                 }
             }
-            // environment {
-            //     MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
-            //     MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
-            // }
+            environment {
+                MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
+                MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
+            }
             steps {
                 sh 'mariadb --version'
             }
