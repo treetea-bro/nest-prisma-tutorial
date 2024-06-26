@@ -49,8 +49,12 @@ pipeline {
                 IMAGES=$(docker-compose config | grep 'image:' | awk '{print $2}')
                 for IMAGE in $IMAGES
                 do
-                  echo "Removing image: $IMAGE"
-                  docker rmi $IMAGE
+                  if docker images -q $IMAGE; then
+                    echo "Removing image: $IMAGE"
+                    docker rmi $IMAGE
+                  else
+                    echo "Image $IMAGE does not exist"
+                  fi
                 done
                 '''
             }
