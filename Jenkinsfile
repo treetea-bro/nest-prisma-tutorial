@@ -30,9 +30,9 @@ pipeline {
               args '--network node-db -p 3306:3306'
             }
           }
-          // steps {
-          //   sh 'docker network create node-db'
-          // }
+          steps {
+            sh 'mariadb --version'
+          }
         }
 
 
