@@ -1,2 +1,2 @@
-docker build -t jenkins-nodejs .
+docker build -t jenkins .
 docker compose up --build -d

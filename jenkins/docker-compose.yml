@@ -12,10 +12,9 @@ services:
       - '2376:2376'
 
   jenkins:
-    image: jenkins-nodejs
+    image: jenkins
     container_name: jenkins
     user: root
-    # user: '${JENKINS_USER}:${JENKINS_GROUP}'
     ports:
       - '8080:8080'
     depends_on:
@@ -28,16 +27,16 @@ services:
       - ./jenkins-data:/var/jenkins_home
       - ./jenkins-docker-certs:/certs/client:ro
 
-  ngrok:
-    image: ngrok/ngrok:latest
-    container_name: ngrok
-    command: start --all --config /etc/ngrok.yml
-    volumes:
-      - ./ngrok.yml:/etc/ngrok.yml
-    ports:
-      - 4040:4040
-    depends_on:
-      - jenkins
+  # ngrok:
+  #   image: ngrok/ngrok:latest
+  #   container_name: ngrok
+  #   command: start --all --config /etc/ngrok.yml
+  #   volumes:
+  #     - ./ngrok.yml:/etc/ngrok.yml
+  #   ports:
+  #     - 4040:4040
+  #   depends_on:
+  #     - jenkins
 # nginx:
 #   image: nginx:latest
 #   container_name: nginx

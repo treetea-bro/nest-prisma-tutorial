@@ -1,14 +1,14 @@
 pipeline {
     agent any
 
-    environment {
-        NODE_ENV = "${env.NODE_ENV}"
-        APP_PORT = "${env.APP_PORT}"
-        MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
-        MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
-        MARIADB_PORT = "${env.MARIADB_PORT}"
-        DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
-    }
+    // environment {
+    //     NODE_ENV = "${env.NODE_ENV}"
+    //     APP_PORT = "${env.APP_PORT}"
+    //     MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
+    //     MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
+    //     MARIADB_PORT = "${env.MARIADB_PORT}"
+    //     DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
+    // }
 
     stages {
         // stage('Create .env File') {
@@ -47,51 +47,58 @@ pipeline {
             }
         }
 
-        stage('Docker compose stop') {
+    
+        stage('Run') { 
             steps {
-                sh 'echo "docker-compose stop"'
-                sh """
-                docker-compose stop
-                """
-            }
-            post {
-                success { 
-                    sh 'echo "Docker compose stop Success"'
-                }
-                failure {
-                    sh 'echo "Docker compose stop Fail"'
-                }
+                sh 'pnpm start:prod'
             }
         }
 
-        stage('Prune Docker data') {
-            steps {
-                sh 'echo "Prune Docker data"'
-                sh 'docker system prune -a --volumes -f'
-            }
-            post {
-                success {
-                    sh 'echo "Prune Docker data Success"'
-                }
-                failure {
-                    sh 'echo "Prune Docker data Fail"'
-                }
-            }
-        }
-
-        stage('Docker Deploy') {
-            steps {
-                sh 'bash build.sh'
-            }
-            post {
-                success {
-                    echo 'docker-compose success'
-                }
-                failure {
-                    echo 'docker-compose failed'
-                }
-            }
-        }
+        // stage('Docker compose stop') {
+        //     steps {
+        //         sh 'echo "docker-compose stop"'
+        //         sh """
+        //         docker-compose stop
+        //         """
+        //     }
+        //     post {
+        //         success { 
+        //             sh 'echo "Docker compose stop Success"'
+        //         }
+        //         failure {
+        //             sh 'echo "Docker compose stop Fail"'
+        //         }
+        //     }
+        // }
+        //
+        // stage('Prune Docker data') {
+        //     steps {
+        //         sh 'echo "Prune Docker data"'
+        //         sh 'docker system prune -a --volumes -f'
+        //     }
+        //     post {
+        //         success {
+        //             sh 'echo "Prune Docker data Success"'
+        //         }
+        //         failure {
+        //             sh 'echo "Prune Docker data Fail"'
+        //         }
+        //     }
+        // }
+        //
+        // stage('Docker Deploy') {
+        //     steps {
+        //         sh 'bash build.sh'
+        //     }
+        //     post {
+        //         success {
+        //             echo 'docker-compose success'
+        //         }
+        //         failure {
+        //             echo 'docker-compose failed'
+        //         }
+        //     }
+        // }
 
         // stage('Dockerizing'){
         //     steps{
