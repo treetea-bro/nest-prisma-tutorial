@@ -102,6 +102,7 @@ pipeline {
                 sh 'pnpm install'
                 sh 'pnpm run build'
                 sh 'rm -rf ./src'
+                sh 'pnpm add -g prisma'
                 sh 'prisma db push'
                 sh 'nohup pnpm start:prod &'
             }
