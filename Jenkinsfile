@@ -1,10 +1,4 @@
 pipeline {
-    agent {
-      docker { 
-        image 'node:20.15.0-alpine3.20'
-        args '--network node-db -p 3001:3001'
-      }
-    }
 
     environment {
         NODE_ENV = "${env.NODE_ENV}"
@@ -16,31 +10,26 @@ pipeline {
     }
 
     stages {
-        // stage('Create .env File') {
-        //     steps {
-        //         script {
-        //             writeFile file: '.env', text: "NODE_ENV=${env.NODE_ENV}\n" +
-        //                      "APP_PORT=${env.APP_PORT}\n" +
-        //                      "MARIADB_ROOT_PASSWORD=${env.MARIADB_ROOT_PASSWORD}\n" +
-        //                      "MARIADB_DATABASE=${env.MARIADB_DATABASE}\n" +
-        //                      "MARIADB_PORT=${env.MARIADB_PORT}\n" +
-        //                      "DATABASE_URL=\"mysql://root:${MARIADB_ROOT_PASSWORD}@db:${MARIADB_PORT}/${MARIADB_DATABASE}\""
-        //         }
-        //     }
-        // }
-
         stage('Docker network create') {
           steps {
             sh 'docker network create node-db'
           }
         }
 
-        stage('Build') { 
+        stage('App') { 
+            agent {
+              docker { 
+                image 'node:20.15.0-alpine3.20'
+                args '--network node-db -p 3001:3001'
+              }
+            }
+
             steps {
                 sh 'npm install -g pnpm@latest'
                 sh 'pnpm install'
                 sh 'pnpm run build'
                 sh 'rm -rf ./src'
+                sh 'pnpm start:prod'
             }
             post {
                 success {
@@ -52,18 +41,18 @@ pipeline {
             }
         }
 
-        stage('Test') { 
-            steps {
-                echo  '테스트 단계와 관련된 몇 가지 단계를 수행합니다.'
-            }
-        }
+        // stage('Test') { 
+        //     steps {
+        //         echo  '테스트 단계와 관련된 몇 가지 단계를 수행합니다.'
+        //     }
+        // }
 
     
-        stage('Run') { 
-            steps {
-                sh 'pnpm start:prod'
-            }
-        }
+        // stage('Run') { 
+        //     steps {
+        //         sh 'pnpm start:prod'
+        //     }
+        // }
 
         // stage('Docker compose stop') {
         //     steps {
