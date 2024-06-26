@@ -59,15 +59,6 @@ pipeline {
             }
         }
 
-        stage('Check DB Container') {
-            steps {
-                script {
-                    // Check if the MariaDB container is running
-                    sh 'docker ps -f name=db'
-                }
-            }
-        }
-
         // stage('DB') {
         //     agent {
         //         docker { 
@@ -99,11 +90,12 @@ pipeline {
 
             steps {
                 sh 'npm install -g pnpm@latest'
+                sh 'pnpm setup'
+                sh 'pnpm add -g prisma'
                 sh 'pnpm install'
                 sh 'pnpm run build'
-                sh 'rm -rf ./src'
-                sh 'pnpm add -g prisma'
                 sh 'prisma db push'
+                sh 'rm -rf ./src'
                 sh 'nohup pnpm start:prod &'
             }
             post {
