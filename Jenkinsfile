@@ -1,5 +1,10 @@
 pipeline {
-    agent none
+    agent {
+      docker { 
+        image 'node:20.15.0-alpine3.20'
+        args '-p 3001:3001'
+      }
+    }
 
     environment {
         NODE_ENV = "${env.NODE_ENV}"
@@ -11,19 +16,32 @@ pipeline {
     }
 
     stages {
-        stage('Docker network create') {
-          steps {
-            sh 'docker network create node-db'
+        // stage('Docker network create') {
+        //   steps {
+        //     sh 'docker network create node-db'
+        //   }
+        // }
+
+        stage('DB') {
+          agent {
+            docker { 
+              image 'mariadb:10'
+              args '-p 3306:3306'
+            }
           }
+          // steps {
+          //   sh 'docker network create node-db'
+          // }
         }
 
+
         stage('App') { 
-            agent {
-              docker { 
-                image 'node:20.15.0-alpine3.20'
-                args '--network node-db -p 3001:3001'
-              }
-            }
+            // agent {
+            //   docker { 
+            //     image 'node:20.15.0-alpine3.20'
+            //     args '--network node-db -p 3001:3001'
+            //   }
+            // }
 
             steps {
                 sh 'npm install -g pnpm@latest'
