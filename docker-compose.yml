@@ -10,7 +10,7 @@ services:
       - '${MARIADB_PORT}:3306'
     volumes:
       - mariadb-data:/var/lib/mysql
-      - mariadb.cnf:/etc/mysql/mariadb.cnf
+      # - mariadb.cnf:/etc/mysql/mariadb.cnf
 
   app:
     depends_on:
@@ -21,4 +21,4 @@ services:
 
 volumes:
   mariadb-data:
-  mariadb.cnf:
+  # mariadb.cnf:
