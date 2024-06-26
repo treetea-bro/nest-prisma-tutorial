@@ -8,6 +8,7 @@ pipeline {
         MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
         MARIADB_PORT = "${env.MARIADB_PORT}"
         DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
+        SHELL = "/bin/sh"
     }
 
     stages {
