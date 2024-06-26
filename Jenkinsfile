@@ -1,11 +1,5 @@
 pipeline {
     agent any
-    // agent {
-    //   docker { 
-    //     image 'node:20.15.0-alpine3.20'
-    //     args '-p 3001:3001'
-    //   }
-    // }
 
     environment {
         NODE_ENV = "${env.NODE_ENV}"
@@ -33,37 +27,32 @@ pipeline {
         }
 
         stage('DB') {
-          agent {
-            docker { 
-              image 'mariadb:10'
-              args '--name db --network node-db -p 3306:3306 -v ./mariadb/mariadb-data:/var/lib/mysql'
+            agent {
+                docker { 
+                    image 'mariadb:10'
+                    args '--name db --network node-db -p 3306:3306 -e MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD} -e MARIADB_DATABASE=${MARIADB_DATABASE} -v $PWD/mariadb/mariadb-data:/var/lib/mysql'
+                }
             }
-          }
-
-          environment {
-              NODE_ENV = "${env.NODE_ENV}"
-              APP_PORT = "${env.APP_PORT}"
-              MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
-              MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
-              MARIADB_PORT = "${env.MARIADB_PORT}"
-              DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
-          }
-
-          steps {
-            sh 'mariadb --version'
-          }
+            // environment {
+            //     MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
+            //     MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
+            // }
+            steps {
+                sh 'mariadb --version'
+            }
         }
-    // volumes:
-    //   - ./mariadb/mariadb-data:/var/lib/mysql
-    //   - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
 
         stage('App') { 
             agent {
-              docker { 
-                image 'node:20.15.0-alpine3.20'
-                args '--network node-db -p 3001:3001'
-              }
+                docker { 
+                    image 'node:20.15.0-alpine3.20'
+                    args '--network node-db -p 3001:3001'
+                }
             }
+
+            // environment {
+            //     DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
+            // }
 
             steps {
                 sh 'npm install -g pnpm@latest'
@@ -81,6 +70,86 @@ pipeline {
                 }
             }
         }
+    }
+}
+
+// pipeline {
+//     agent any
+//
+//     environment {
+//         NODE_ENV = "${env.NODE_ENV}"
+//         APP_PORT = "${env.APP_PORT}"
+//         MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
+//         MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
+//         MARIADB_PORT = "${env.MARIADB_PORT}"
+//         DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
+//     }
+//
+//     stages {
+//         stage('Setup Network') {
+//             steps {
+//                 script {
+//                     // Check if the network exists, create it if it doesn't
+//                     sh '''
+//                     if ! docker network ls --format "{{.Name}}" | grep -w node-db > /dev/null; then
+//                         docker network create node-db
+//                     else
+//                         echo "Network node-db already exists"
+//                     fi
+//                     '''
+//                 }
+//             }
+//         }
+//
+//         stage('DB') {
+//           agent {
+//             docker { 
+//               image 'mariadb:10'
+//               args '--name db --network node-db -p 3306:3306 -v ./mariadb/mariadb-data:/var/lib/mysql'
+//             }
+//           }
+//
+//           environment {
+//               NODE_ENV = "${env.NODE_ENV}"
+//               APP_PORT = "${env.APP_PORT}"
+//               MARIADB_ROOT_PASSWORD = "${env.MARIADB_ROOT_PASSWORD}"
+//               MARIADB_DATABASE = "${env.MARIADB_DATABASE}"
+//               MARIADB_PORT = "${env.MARIADB_PORT}"
+//               DATABASE_URL = "mysql://root:${env.MARIADB_ROOT_PASSWORD}@db:${env.MARIADB_PORT}/${env.MARIADB_DATABASE}"
+//           }
+//
+//           steps {
+//             sh 'mariadb --version'
+//           }
+//         }
+//     // volumes:
+//     //   - ./mariadb/mariadb-data:/var/lib/mysql
+//     //   - ./mariadb/mariadb.cnf:/etc/mysql/mariadb.cnf
+//
+//         stage('App') { 
+//             agent {
+//               docker { 
+//                 image 'node:20.15.0-alpine3.20'
+//                 args '--network node-db -p 3001:3001'
+//               }
+//             }
+//
+//             steps {
+//                 sh 'npm install -g pnpm@latest'
+//                 sh 'pnpm install'
+//                 sh 'pnpm run build'
+//                 sh 'rm -rf ./src'
+//                 sh 'pnpm start:prod'
+//             }
+//             post {
+//                 success {
+//                     echo 'pnpm build success'
+//                 }
+//                 failure {
+//                     echo 'pnpm build failed'
+//                 }
+//             }
+//         }
 
         // stage('Test') { 
         //     steps {
