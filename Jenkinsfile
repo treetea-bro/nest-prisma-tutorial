@@ -34,16 +34,31 @@ pipeline {
             }
         }
 
+        stage('Down Containers') {
+            steps {
+                script {
+                    sh 'docker-compose down'
+                }
+            }
+        }
 
-        // stage('') {
-        //     steps {
-        //       sh 'bash build.sh'
-        //     }
-        // }
+        stage('Remove Images') {
+            steps {
+                sh '''
+                #!/bin/bash
+                IMAGES=$(docker-compose config | grep 'image:' | awk '{print $2}')
+                for IMAGE in $IMAGES
+                do
+                  echo "Removing image: $IMAGE"
+                  docker rmi $IMAGE
+                done
+                '''
+            }
+        }
 
         stage('Build') {
             steps {
-              sh 'docker-compose up -d'
+              sh 'docker-compose up --build -d'
               sh 'docker-compose exec app npx prisma db push'
             }
         }
