@@ -2,6 +2,12 @@ services:
   db:
     container_name: db_prod
     restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: 1234
+      MARIADB_DATABASE: nestjs_prisma_db
+      MARIADB_USER: testuser
+      MARIADB_PASSWORD: 1234
+      MARIADB_PORT: 3306
     # env_file:
     #   - .env
 
