@@ -9,10 +9,10 @@ import { LoginIdInput } from './dto/login-id.input';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  // @Mutation(() => User, { description: '유저를 생성합니다.' })
-  // createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-  //   return this.usersService.create(createUserInput);
-  // }
+  @Mutation(() => User, { description: '유저를 생성합니다.' })
+  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    return this.usersService.create(createUserInput);
+  }
 
   @Query(() => [User], { name: 'users' })
   findAll() {
