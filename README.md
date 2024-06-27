@@ -1,11 +1,12 @@
-## 실행 방법
-1. 도커 데스크톱을 설치합니다.
+# 실행 방법
+공통) 도커를 설치합니다.
 
-    1.1. development 모드로 빌드하려면 `bash build.sh`를 실행합니다.
+## Development
+1. `bash build.dev.sh`를 실행합니다.
+2. `bash build.dev.sh`이후부터는 `bash dev.sh`로 실행합니다.
+3. prisma studio를 실행하려면 `studio.sh`를 실행합니다.
 
-    1.2. production 모드로 빌드하려면 `bash build.prod.sh`를 실행합니다.
-
-2. development 모드에서 prisma studio를 실행하려면 `studio.sh`를 실행합니다.
-
-
-Extra) `bash dev.sh`를 실행하시면 로그를 보시면서 development 모드로 개발하실 수 있습니다. (hot reload 적용 && `bash dev.sh` 을 하기 전에 `bash build.sh` 를 먼저 해주세요.)
+## Production
+1. `bash build.sh`를 실행합니다.
+2. localhost:4040에 접속해서 공용도메인을 확인하고 접속합니다.
+3. 젠킨스 로그인을하고 파이프라인을 생성합니다.
