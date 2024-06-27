@@ -2,6 +2,7 @@ services:
   jenkins:
     image: jenkins
     container_name: jenkins
+    restart: unless-stopped
     user: root
     ports:
       - '8080:8080'
@@ -12,6 +13,7 @@ services:
   ngrok:
     image: ngrok/ngrok:latest
     container_name: ngrok
+    restart: unless-stopped
     command: start --all --config /etc/ngrok.yml
     volumes:
       - ./ngrok.yml:/etc/ngrok.yml
