@@ -1,4 +1,5 @@
 if ! docker volume ls --format "{{.Name}}" | grep -w mariadb-data >/dev/null; then
+	docker volume create mariadb-data
 	echo "Volume mariadb-data created."
 else
 	echo "Volume mariadb-data already exists."
